@@ -128,5 +128,5 @@ app.use('/api', router);
 
 // START THE SERVER
 // =============================================================================
-app.listen(port);
+app.listen(3000, '0.0.0.0');
 console.log('Magic happens on port ' + port);
