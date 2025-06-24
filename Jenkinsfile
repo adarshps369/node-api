@@ -7,12 +7,6 @@ pipeline {
     }
 
     stages {
-        stage('Clone Repo') {
-            steps {
-                git 'https://github.com/adarshps369/node-api.git'
-            }
-        }
-
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
@@ -27,15 +21,19 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo 'Simulating build process...'
-                sh 'mkdir -p build && cp -r * build/'
+                echo 'Build step (optional)'
             }
         }
 
-        stage('Deploy') {
+        stage('Deploy with PM2') {
             steps {
-                echo 'Simulated deploy to /tmp/node-api-deploy'
-                sh 'mkdir -p /tmp/node-api-deploy && cp -r build/* /tmp/node-api-deploy'
+                script {
+                    sh '''
+                    pm2 delete node-api || true
+                    pm2 start server.js --name node-api
+                    pm2 save
+                    '''
+                }
             }
         }
     }
