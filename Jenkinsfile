@@ -7,9 +7,9 @@ pipeline {
     }
 
     stages {
-        stage('Clone Repository') {
+        stage('Clone Repo') {
             steps {
-                git 'https://github.com/scotch-io/node-api.git'
+                git 'https://github.com/adarshps369/node-api.git'
             }
         }
 
@@ -21,18 +21,18 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                sh 'npm test || echo "Tests failed but continuing..."'
+                sh 'npm test'
             }
         }
 
-        stage('Build (Simulated)') {
+        stage('Build') {
             steps {
-                echo 'Simulating build step...'
+                echo 'Simulating build process...'
                 sh 'mkdir -p build && cp -r * build/'
             }
         }
 
-        stage('Deploy (Simulated)') {
+        stage('Deploy') {
             steps {
                 echo 'Simulated deploy to /tmp/node-api-deploy'
                 sh 'mkdir -p /tmp/node-api-deploy && cp -r build/* /tmp/node-api-deploy'
@@ -42,7 +42,6 @@ pipeline {
 
     post {
         always {
-            echo 'Cleaning up workspace...'
             cleanWs()
         }
     }
